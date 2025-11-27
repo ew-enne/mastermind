@@ -1,0 +1,6 @@
+
+
+
+
+
+test = Board.new
