@@ -11,7 +11,7 @@ require_relative 'lib/player/code_maker'
 require_relative 'lib/player/code_maker/ai_code_maker'
 require_relative 'lib/player/code_maker/human_code_maker'
 
+require 'colorize'
 
 
-
-test = Board.new
+test = Peg.new
