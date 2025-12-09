@@ -1,7 +1,7 @@
 class Piece
   # defines the pieces: dots and pegs with colors
     
-  attr_reader :dot, :peg, :color_code
+  attr_reader :color_code
   
   COLOR_MAP = {
     'b' => 'blue',
@@ -16,8 +16,8 @@ class Piece
   def initialize(color_code = nil)
     @dot = "\u25C9"
     @peg = "\u2759"
-    color_code = color_code&.downcase
-    @color = COLOR_MAP.fetch(color_code)
+    color_key = color_code&.downcase
+    @color = COLOR_MAP[color_key] || COLOR_MAP['bl'] # fallback to black
   end
 
   def colored_dot

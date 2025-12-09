@@ -10,3 +10,4 @@ require_relative 'mastermind/piece'
 require_relative 'mastermind/player'
 require_relative 'mastermind/player/code_breaker'
 require_relative 'mastermind/player/code_maker'
+

@@ -1,4 +1,5 @@
 require_relative 'lib/mastermind'
 
-board = Board.new
-board.presentation
+game = Game.new
+game.select_randomly
+game.board.print_holes
