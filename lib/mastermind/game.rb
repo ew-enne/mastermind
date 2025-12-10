@@ -1,3 +1,5 @@
+# require_relative 'player'
+
 class Game
   # defines the logic of the game
 
@@ -16,7 +18,7 @@ class Game
     puts
     puts 'The bord has 4 empty holes: '
     puts
-    @board.print_holes
+    @board.print_holes(['bl', 'bl', 'bl', 'bl'])
     puts 'You choose 4 pegs to put into these holes.'
     puts
     puts 'There are six colors of pegs available :'
@@ -36,13 +38,23 @@ class Game
   end
 
   def create_player
-    Player.new 
+    @player = Player.new
   end
 
   def select_randomly
     @board.holes_colors.map! { @board.dot_colors.sample }
     p @board.holes_colors
     @board.holes_colors
+  end
+
+  def play
+    puts "Hi #{@player.name}, the computer has chosen a random combination of pegs. Please enter your first guess (use 4 of the above mentionned letters for colors): "
+    first_guess = gets.chomp.chars
+    print "Your guess: "
+    "#{@board.print_holes(first_guess)}"
+
+    # ADD HERE: EVALUATION OF USER ENTRY --> output white and black pegs
+    
   end
 
 end

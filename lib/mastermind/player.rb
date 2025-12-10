@@ -7,6 +7,7 @@ class Player
     puts
     print "Enter your name: "
     @name = gets.chomp
+    puts
   end
 
 end
