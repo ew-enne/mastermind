@@ -1,12 +1,14 @@
-# require_relative 'player'
+# require_relative 'board'
 
 class Game
   # defines the logic of the game
 
-  attr_reader :board
+  # attr_reader :board
 
   def initialize
     @board = Board.new
+    @code_maker_code = []
+    @guess =[]
     presentation
     create_player
   end
@@ -42,19 +44,59 @@ class Game
   end
 
   def select_randomly
-    @board.holes_colors.map! { @board.dot_colors.sample }
-    p @board.holes_colors
-    @board.holes_colors
+    @board.holes_colors = Array.new(4) { @board.dot_colors.sample }
+  end
+
+  def give_feedback
+    feedback = []
+    code_maker_check = @code_maker_code
+    # check if right place and right color
+    @guess.each_with_index do |color, index|
+      if code_maker_check[index] == color
+        @guess[index] = 'O' # element won't give false positive in second round
+        code_maker_check[index] = 'X'
+        feedback << 'X'
+      end
+    end
+    # check if wrong place and right color
+    @guess.each do |col|
+      code_maker_check.each_with_index do |color, index|
+        if color == col
+          code_maker_check[index] = 'x'
+          feedback << 'x'
+          break
+        end
+      end
+    end
+
+    feedback.each do |peg|
+      if peg == 'X'
+        @board.print_peg('bl')
+      elsif peg == 'x'
+        @board.print_peg('w')
+      end
+    end
+    puts
+    # puts "Check feedback #{feedback}" # for debugging
   end
 
   def play
-    puts "Hi #{@player.name}, the computer has chosen a random combination of pegs. Please enter your first guess (use 4 of the above mentionned letters for colors): "
-    first_guess = gets.chomp.chars
-    print "Your guess: "
-    "#{@board.print_holes(first_guess)}"
+    round = 0
+    @code_maker_code = select_randomly
+    puts "This is the random code: #{@code_maker_code}"
+    if round == 0
+      print "Hi #{@player.name}, the computer has chosen a random combination of pegs. Please enter your first guess (use 4 of the above mentionned letters for colors): "
+      round += 1
+    else
+      puts "Enter your next guess: "    
+    end
+      @guess = gets.chomp.chars
+      print "\nYour guess: "
+      "#{@board.print_holes(@guess)}"
+      
+      print "\nResult: "
+      "#{give_feedback}"
 
-    # ADD HERE: EVALUATION OF USER ENTRY --> output white and black pegs
-    
   end
 
 end

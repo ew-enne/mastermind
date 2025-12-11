@@ -1,3 +1,4 @@
+
 class Piece
   # defines the pieces: dots and pegs with colors
     
