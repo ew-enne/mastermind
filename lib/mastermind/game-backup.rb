@@ -51,8 +51,7 @@ class Game
 
   def give_feedback
     feedback = []
-    # puts "Check feedback 1 #{feedback}" # for debugging
-    code_maker_check = @code_maker_code.dup
+    code_maker_check = @code_maker_code
     # check if right place and right color
     @guess.each_with_index do |color, index|
       if code_maker_check[index] == color
@@ -72,19 +71,15 @@ class Game
       end
     end
 
-    if feedback != []
-      feedback.each do |peg|
-        if peg == 'X'
-          @board.print_peg('bl')
-        elsif peg == 'x'
-          @board.print_peg('w')
-        end
+    feedback.each do |peg|
+      if peg == 'X'
+        @board.print_peg('bl')
+      elsif peg == 'x'
+        @board.print_peg('w')
       end
-    else
-      puts "no match ;-("
-    end  
+    end
     puts
-    # puts "Check feedback 2 #{feedback}" # for debugging
+    # puts "Check feedback #{feedback}" # for debugging
   end
 
   def check_win
@@ -94,31 +89,33 @@ class Game
   end
 
   def play
-    round = 1
+    round = 0
 
     @code_maker_code = select_randomly
-    # for debugging
-    # puts "This is the random code: #{@code_maker_code}"
-
+    puts "This is the random code: #{@code_maker_code}"
+    "#{@board.print_holes(@code_maker_code)}"
     puts
-    puts "Hi #{@player.name}, the computer has chosen a random combination of pegs. "
 
-    while @winner == false      
-      puts "\nEnter your guess: "
-      @guess = gets.chomp.chars
-      print "\nYour guess ##{round}: "
-      "#{@board.print_holes(@guess)}"
-      check_win
-      print "\nResult: "
-      "#{give_feedback}"
+    if round == 0
+      puts
+      print "Hi #{@player.name}, the computer has chosen a random combination of pegs. Please enter your first guess (use 4 of the above mentionned letters for colors): "
       round += 1
+    else
+      puts "Enter your next guess: "
+    end
+    @guess = gets.chomp.chars
+    print "\nYour guess: "
+    "#{@board.print_holes(@guess)}"
+
+    check_win
+    if @winner == true
+      puts " That's correct, you won!"
+      exit
     end
     
-    if @winner == true
-      puts "\nThat's correct, you won!"
-      exit
-    end  
-    
+    print "\nResult: "
+    "#{give_feedback}"
+
   end
 
 end

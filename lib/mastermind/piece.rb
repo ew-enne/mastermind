@@ -16,7 +16,7 @@ class Piece
 
   def initialize(color_code = nil)
     @dot = "\u25C9"
-    @peg = "\u2759"
+    @peg = "\u2665"
     color_key = color_code&.downcase
     @color = COLOR_MAP[color_key] || COLOR_MAP['bl'] # fallback to black
   end
