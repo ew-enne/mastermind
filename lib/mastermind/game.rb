@@ -9,6 +9,7 @@ class Game
     @board = Board.new
     @code_maker_code = []
     @guess =[]
+    @winner = false
     presentation
     create_player
   end
@@ -18,9 +19,10 @@ class Game
     puts
     puts '---- M A S T E R M I N D ----'
     puts
-    puts 'The bord has 4 empty holes: '
-    puts
+    print 'The bord has 4 empty holes: '
     @board.print_holes(['bl', 'bl', 'bl', 'bl'])
+    puts
+    puts
     puts 'You choose 4 pegs to put into these holes.'
     puts
     puts 'There are six colors of pegs available :'
@@ -80,22 +82,37 @@ class Game
     # puts "Check feedback #{feedback}" # for debugging
   end
 
+  def check_win
+    if @code_maker_code == @guess
+      @winner = true
+    end
+  end
+
   def play
     round = 0
     @code_maker_code = select_randomly
     puts "This is the random code: #{@code_maker_code}"
+    "#{@board.print_holes(@code_maker_code)}"
+    puts
+
     if round == 0
       print "Hi #{@player.name}, the computer has chosen a random combination of pegs. Please enter your first guess (use 4 of the above mentionned letters for colors): "
       round += 1
     else
       puts "Enter your next guess: "    
     end
-      @guess = gets.chomp.chars
-      print "\nYour guess: "
-      "#{@board.print_holes(@guess)}"
-      
-      print "\nResult: "
-      "#{give_feedback}"
+    @guess = gets.chomp.chars
+    print "\nYour guess: "
+    "#{@board.print_holes(@guess)}"
+
+    check_win
+    if @winner == true
+      puts " That's correct, you won!"
+      exit
+    end
+    
+    print "\nResult: "
+    "#{give_feedback}"
 
   end
 
